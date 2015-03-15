@@ -6,5 +6,5 @@ import {ChatApp} from './components/chat-app';
 export const run = () => {
 
   console.info('run method start...');
-  bootstrap(ChatApp);
+  return bootstrap(ChatApp);
 }
