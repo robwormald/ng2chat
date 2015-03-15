@@ -1,10 +1,14 @@
 <html>
   <head>
     <title>ng2chat</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/materialize/0.95.3/css/materialize.min.css">
 
     <!-- ES6 Module loader and SystemJS  -->
     <script src="jspm_packages/es6-module-loader.js"></script>
     <script src="jspm_packages/system.js"></script>
+
+    <!-- zone.js -->
+    <script charset="utf-8" src="jspm_packages/github/angular/zone.js@0.4.1/zone.js"></script>
 
     <!-- SystemJS config  -->
     <script src="config.js"></script>
@@ -14,6 +18,15 @@
 
   </head>
   <body>
-    hello chat!!!
+    <div class="navbar-fixed">
+      <nav>
+      <div class="nav-wrapper">
+        <a href="#" class="brand-logo"> ng2Chat</a>
+      </div>
+    </nav>
+    </div>
+    <chat-app>
+      Loading...
+    </chat-app>
   </body>
 </html>
