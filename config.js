@@ -1,7 +1,7 @@
 System.config({
   "baseURL": "/",
   "paths": {
-    "*": "*.js",
+    "*": "src/*.js",
     "github:*": "jspm_packages/github/*.js"
   }
 });
@@ -11,4 +11,3 @@ System.config({
     "automattic/socket.io-client": "github:automattic/socket.io-client@1.3.5"
   }
 });
-
