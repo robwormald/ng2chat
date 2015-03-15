@@ -18,8 +18,8 @@
 
   console.info('starting app...');
 
-  //use SystemJS to import main.js 
-  System.import('./main')
+  //use SystemJS to import main.js
+  System.import('app/main')
   .catch(importError)
   .then(bootstrap)
   .catch(bootstrapError);
