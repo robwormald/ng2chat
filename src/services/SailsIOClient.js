@@ -15,9 +15,9 @@ const HTTP_METHOD = {
 
 class SailsIORequest {
 
-  constructor(method: string, url: string, options: any = {}){
+  constructor(method: string = HTTP_METHOD.GET, url: string, options: any = {}){
     this.url = url;
-    this.method = options.method || HTTP_METHOD.GET;
+    this.method = method;
     this.body = options.body;
   }
 
@@ -55,6 +55,7 @@ export class SailsIOClient {
   constructor(url: string,options:any){
     this.url = `${url}?${SAILS_SDK_VERSION_KEY}=${SAILS_SDK_VERSION_VALUE}`;
     this.options = options;
+    this.eventListeners = new Map();
     this.openConnection = null;
   }
 
@@ -80,5 +81,31 @@ export class SailsIOClient {
     let request = new SailsIORequest(HTTP_METHOD.GET,url,options);
     return this.sendRequest(request)
     .then((response)=> response.json());
+  }
+
+  post(url: string, body: any, options: any = {}){
+    options.body = body;
+    let request = new SailsIORequest(HTTP_METHOD.POST,url,options);
+    return this.sendRequest(request)
+    .then((response)=> response.json());
+  }
+
+  put(url: string, body: any, options: any = {}){
+    options.body = body;
+    let request = new SailsIORequest(HTTP_METHOD.PUT,url,options);
+    return this.sendRequest(request)
+    .then((response)=> response.json());
+  }
+
+  delete(url: string, body: any, options: any = {}){
+    options.body = body;
+    let request = new SailsIORequest(HTTP_METHOD.DELETE,url,options);
+    return this.sendRequest(request)
+    .then((response)=> response.json());
+  }
+
+  listen(eventName:string, callback:Function){
+    this.connect()
+    .then((socket) => socket.on(eventName,callback));
   }
 }
