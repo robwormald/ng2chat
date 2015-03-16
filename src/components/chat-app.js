@@ -1,7 +1,7 @@
 import {Component, Template} from 'angular2/angular2';
 import {bind} from 'angular2/di';
 
-import {SailsIOClient} from '../services/chatClient';
+import {SailsIOClient} from '../services/SailsIOClient';
 
 const SERVER_URL = 'http://angular-sails-chat.herokuapp.com/';
 
@@ -18,7 +18,6 @@ export class ChatApp {
     this.title = 'AngularChat';
     this.chatClient = chatClient;
     this.chatClient.connect()
-    .then((socket)=> console.log(socket))
     .then(()=>{
       return this.chatClient.get('/channel')
     })
