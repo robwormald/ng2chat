@@ -1,23 +1,29 @@
 import {Component, Template} from 'angular2/angular2';
 import {bind} from 'angular2/di';
 
-import {ChatClient} from '../services/chatClient';
+import {SailsIOClient} from '../services/chatClient';
+
+const SERVER_URL = 'http://angular-sails-chat.herokuapp.com/';
 
 @Component({
   selector: 'chat-app',
-  services: [bind(ChatClient).toValue(new ChatClient('http://localhost:1337'))]
+  services: [bind(SailsIOClient).toValue(new SailsIOClient(SERVER_URL))]
 })
 @Template({
   url: 'src/components/chat-app.html'
 })
 export class ChatApp {
 
-  constructor(chatClient: ChatClient){
+  constructor(chatClient: SailsIOClient){
     this.title = 'AngularChat';
     this.chatClient = chatClient;
-  }
-
-  connect(){
-    this.chatClient.connect();
+    this.chatClient.connect()
+    .then((socket)=> console.log(socket))
+    .then(()=>{
+      return this.chatClient.get('/channel')
+    })
+    .then((res)=> {
+      console.log(res)
+    })
   }
 }
