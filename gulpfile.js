@@ -35,6 +35,19 @@ gulp.task('build',function(){
 	})
 });
 
+gulp.task('ngBuild',function(){
+	var builder = new Builder();
+	return builder.loadConfig('./config.js')
+	.then(function(){
+		builder.config({
+			annotations: true,
+			types: true,
+			memberVariables: true
+		})
+		return builder.build('angular2/angular2','dist/angular2.js');
+	})
+});
+
 gulp.task('bundle', ['build'], function(){})
 
 gulp.task('watch', function () {
