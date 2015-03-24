@@ -1,6 +1,15 @@
 var gulp = require('gulp');
 var connect = require('gulp-connect');
 var Builder = require('systemjs-builder');
+var concat = require('gulp-concat');
+
+var files = [
+	'jspm_packages/traceur-runtime.js',
+	'jspm_packages/system.js',
+	'jspm_packages/github/angular/zone.js@0.4.1/zone.js',
+	'dist/build.js'
+]
+
 
 gulp.task('connect', function() {
   connect.server({
@@ -22,9 +31,11 @@ gulp.task('build',function(){
 			types: true,
 			memberVariables: true
 		})
-		return builder.build('app/main','dist/bundle.js');
+		return builder.build('app/main','dist/build.js');
 	})
-})
+});
+
+gulp.task('bundle', ['build'], function(){})
 
 gulp.task('watch', function () {
   gulp.watch(['./index.html','./src/**/*'], ['index']);
