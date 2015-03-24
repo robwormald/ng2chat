@@ -1,16 +1,15 @@
 <div class="row">
 
-      <div class="col s12 m4 l3">
+      <div class="col s12 m4 l3 z-depth-1 flex"> <!-- Note that "m4 l3" was added -->
         <h5>Channels</h5>
-        <ul *foreach="#channel in channels" class="collection">
-          <li class="collection-item">{{channel.channel_name}} ::: {{channel.messages.length}}</li>
-        </ul>
-      </div>
-      <div class="col s12 m8 l9">
-        <h5>Messages</h5>
-        <ul *foreach="#message in selectedChannel.messages" class="collection">
-          <li class="collection-item">{{message.createdAt}} ::: {{message.body.length}}</li>
-        </ul>
+        <ul class="collection">
+      <li class="collection-item">Alvin</li>
+      <li class="collection-item">Alvin</li>
+      <li class="collection-item">Alvin</li>
+      <li class="collection-item">Alvin</li>
+    </ul>
+      <div class="col s12 m8 l9 container">
+          goodbye
         <!-- Note that "m8 l9" was added -->
         <!-- Teal page content
 
