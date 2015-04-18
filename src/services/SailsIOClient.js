@@ -1,4 +1,5 @@
 import io from 'automattic/socket.io-client/socket.io';
+import Rx from 'rx/dist/rx.all'
 
 const CONNECT_EVENT = 'connect';
 const CONNECT_ERROR_EVENT = 'connectionError';
@@ -11,6 +12,19 @@ const HTTP_METHOD = {
   POST: 'post',
   PUT: 'put',
   DELETE: 'delete'
+}
+
+
+const fromSocketEvent = (io, event) => {
+  console.log(io)
+  return Rx.Observable.fromEventPattern(
+    function (h) { return io.on(event, h); },
+    function (h, d) { d.removeListener(event, h); }  // Don't know if this is correct, if not, just don't include it
+  )
+}
+
+export class SailsIOConfig {
+  url: string;
 }
 
 class SailsIORequest {
@@ -52,28 +66,20 @@ class SailsIOResponse {
 
 export class SailsIOClient {
 
-  constructor(url: string,options:any){
-    this.url = `${url}?${SAILS_SDK_VERSION_KEY}=${SAILS_SDK_VERSION_VALUE}`;
-    this.options = options;
+  constructor(config:SailsIOConfig){
+    this.url = `${config.url}?${SAILS_SDK_VERSION_KEY}=${SAILS_SDK_VERSION_VALUE}`;
+    //this.options = options;
     this.eventListeners = new Map();
-    this.openConnection = null;
-  }
+    this.socket = io(this.url);
+    this.connectionStream = fromSocketEvent(this.socket, 'connect');
 
-  connect(){
-    if(!this.openConnection){
-      this.openConnection = new Promise((resolve,reject)=> {
-        let socket = io(this.url,this.options);
-        socket.on(CONNECT_EVENT,()=> resolve(socket));
-        socket.on(CONNECT_ERROR_EVENT,(err)=>reject(err));
-      });
-    }
-
-    return this.openConnection;
+    this.connectionStream.forEach((e) => {
+      console.log(e)
+    })
   }
 
   sendRequest(request:SailsIORequest){
-    return this.connect()
-    .then((socket) => request.sendWithSocket(socket))
+    return  request.sendWithSocket(this.socket)
     .then((response) => response.validate());
   }
 
@@ -104,8 +110,7 @@ export class SailsIOClient {
     .then((response)=> response.json());
   }
 
-  listen(eventName:string, callback:Function){
-    this.connect()
-    .then((socket) => socket.on(eventName,callback));
+  listen(eventName:string){
+    return fromSocketEvent(this.socket,eventName);
   }
 }

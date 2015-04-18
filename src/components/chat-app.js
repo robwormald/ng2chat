@@ -1,28 +1,41 @@
-import {Component, Template} from 'angular2/angular2';
+import {bootstrap, Component, View} from 'angular2/angular2';
 import {bind} from 'angular2/di';
 
-import {SailsIOClient} from '../services/SailsIOClient';
+import {ChatChannelList} from './chat-channel-list';
+import {ChatChannelViewer} from './chat-channel-viewer'
+import {ChatStore, Channel} from '../services/ChatStore';
 
-const SERVER_URL = 'http://angular-sails-chat.herokuapp.com/';
+import {SailsIOClient, SailsIOConfig} from '../services/SailsIOClient';
+
+const SERVER_URL = 'http://localhost:1337/';
 
 @Component({
   selector: 'chat-app',
-  services: [bind(SailsIOClient).toValue(new SailsIOClient(SERVER_URL))]
+  injectables: [
+    ChatStore,
+    SailsIOClient,
+    bind(SailsIOConfig).toValue({url: SERVER_URL})],
+    properties: {
+      'selectedChannel': 'selectedChannel'
+    }
 })
-@Template({
-  url: 'src/components/chat-app.html'
+@View({
+  templateUrl: 'src/components/chat-app.html',
+  directives: [
+    ChatChannelList,
+    ChatChannelViewer
+  ]
 })
-export class ChatApp {
+class ChatApp {
 
-  constructor(chatClient: SailsIOClient){
+  selectedChannel: Channel;
+
+  constructor(chatStore: ChatStore){
+    console.log('go')
     this.title = 'AngularChat';
-    this.chatClient = chatClient;
-    this.chatClient.connect()
-    .then(()=>{
-      return this.chatClient.get('/channel')
-    })
-    .then((res)=> {
-      console.log(res)
-    })
+    this.selectedChannel = {};
+    this.chatStore = chatStore;
   }
 }
+
+bootstrap(ChatApp)

@@ -6,7 +6,7 @@ var concat = require('gulp-concat');
 var files = [
 	'jspm_packages/traceur-runtime.js',
 	'jspm_packages/system.js',
-	'jspm_packages/github/angular/zone.js@0.4.1/zone.js',
+	'jspm_packages/github/angular/zone.js@0.4.2/zone.js',
 	'dist/build.js'
 ]
 

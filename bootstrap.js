@@ -5,7 +5,7 @@
 
   //execute run method on main module
   function bootstrap(mainModule){
-    return mainModule.run()
+    console.log('booted')
   }
 
   function importError(err){
@@ -19,7 +19,7 @@
   console.info('starting app...');
 
   //use SystemJS to import main.js
-  System.import('app/main')
+  System.import('src/main')
   .catch(importError)
   .then(bootstrap)
   .catch(bootstrapError);
