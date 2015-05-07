@@ -14,23 +14,25 @@ const SERVER_URL = 'http://localhost:1337/';
   injectables: [
     ChatStore,
     SailsIOClient,
-    bind(SailsIOConfig).toValue({url: SERVER_URL})],
-    properties: {
-      'selectedChannel': 'selectedChannel'
-    }
+    bind(SailsIOConfig).toValue({url: SERVER_URL})
+    ],
+    // properties: {
+  //    'selectedChannel': 'selectedChannel'
+  //  }
 })
 @View({
-  templateUrl: 'src/components/chat-app.html',
+  template: 'hello world',
   directives: [
-    ChatChannelList,
-    ChatChannelViewer
+  //  ChatChannelList,
+  //  ChatChannelViewer
   ]
 })
-class ChatApp {
+export class ChatApp {
 
   selectedChannel: Channel;
 
   constructor(chatStore: ChatStore){
+
     console.log('go')
     this.title = 'AngularChat';
     this.selectedChannel = {};
@@ -38,4 +40,7 @@ class ChatApp {
   }
 }
 
-bootstrap(ChatApp)
+export const main = () => {
+  return bootstrap(ChatApp);
+
+}

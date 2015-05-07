@@ -5,6 +5,7 @@
 
   //execute run method on main module
   function bootstrap(mainModule){
+    return mainModule.main();
     console.log('booted')
   }
 

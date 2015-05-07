@@ -1,1 +1,1 @@
-import {ChatApp} from './components/chat-app';
+export {main} from './components/chat-app';

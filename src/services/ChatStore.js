@@ -1,5 +1,6 @@
 import {SailsIOClient} from './SailsIOClient';
 
+import {Injectable} from 'angular2/angular2';
 import {ListWrapper} from 'angular2/src/facade/collection';
 
 
@@ -26,6 +27,7 @@ class Message {
 	}
 }
 
+@Injectable()
 export class ChatStore {
 
 	channels: Array;
